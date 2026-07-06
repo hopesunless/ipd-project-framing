@@ -1,219 +1,258 @@
-# ipd-project-framing Skill 使用说明
+# IPD Project Framing
 
-`ipd-project-framing` 是一个用于工程项目、产品包项目和应用研究项目梳理的 Codex skill。它以华为 IPD 风格的集成产品开发框架为参考，通过 4W2H 提问、六阶段 IPD 流程、TR/DCP 评审、质量内建和动态响应机制，帮助你把项目从零散想法整理成可评审、可推进、可沉淀的材料。
+`ipd-project-framing` is a reusable project-framing workflow for structuring engineering projects, product-package work, and applied research initiatives with an IPD-style lifecycle.
 
-## 适用场景
+It combines 4W2H questioning, a six-phase IPD process, technical and decision reviews, quality built-in thinking, and dynamic response mechanisms. The goal is to help teams turn early project ideas into review-ready project documents, decision material, and presentation outlines.
 
-使用这个 skill 处理以下任务：
+This repository can be used in multiple ways:
 
-- 把一个模糊项目想法梳理成 IPD 结构
-- 为工程项目生成 IPD 项目文档
-- 为应用研究项目生成阶段计划和评审材料
-- 准备 TR/DCP 评审内容
-- 对比技术路线、工程路线或研究路线
-- 梳理质量目标、验证方案和风险闭环
-- 生成 IPD 风格的 PPT 大纲
-- 将项目成果整理为可转化、可移交、可复用的项目包
+- as an AI-agent skill or prompt package
+- as a project-management checklist
+- as a workshop facilitation guide
+- as a template source for IPD-style documents and slide outlines
+- as a starting point for organization-specific IPD customization
 
-## 快速使用
+## What This Is
 
-在 Codex 中可以这样调用：
+This workflow is inspired by common IPD (Integrated Product Development) practices and adapted for practical project framing. It is not an official Huawei process document and should be tailored to each organization's governance, terminology, and review requirements.
+
+The framework is especially useful when a project needs to answer:
+
+- Why should this project exist?
+- What exactly will be delivered?
+- Who will use, fund, review, build, verify, or operate it?
+- When are the key milestones and decision points?
+- How will the technical or research route work?
+- How much resource, cost, effort, risk, and value are involved?
+
+## Use Cases
+
+Use this workflow to:
+
+- clarify a vague product, engineering, or research idea
+- prepare IPD-style project charters
+- generate project documents and gate-review materials
+- compare technical routes or research paths
+- define TR/DCP checkpoints
+- build quality, verification, and risk plans
+- structure research-to-engineering transfer plans
+- create PPT outlines for project review meetings
+- align cross-functional teams around value, scope, evidence, and decisions
+
+## Repository Structure
 
 ```text
-用 ipd-project-framing 帮我梳理这个项目：<项目背景>
+.
+├── README.md
+└── skills/
+    └── ipd-project-framing/
+        ├── SKILL.md
+        ├── agents/
+        │   └── openai.yaml
+        └── references/
+            └── ipd-framework.md
 ```
 
-也可以指定输出：
+Main files:
 
-```text
-用 ipd-project-framing 生成这个项目的 IPD 文档和 PPT 大纲：<项目背景>
-```
+- `skills/ipd-project-framing/SKILL.md`: compact instructions for an AI assistant or facilitator.
+- `skills/ipd-project-framing/references/ipd-framework.md`: detailed IPD reference, templates, phase definitions, quality rules, and PPT outline.
+- `skills/ipd-project-framing/agents/openai.yaml`: optional metadata for environments that support skill discovery.
 
-如果信息还不完整，skill 会先用 4W2H 引导你补齐关键内容，而不是直接生成空泛文档。
+## Core Method: 4W2H
 
-## 核心方法：4W2H
+The workflow starts with 4W2H to establish a clear project baseline before entering detailed planning.
 
-每次使用时，skill 会优先用 4W2H 帮你建立项目底座。
-
-| 维度 | 核心问题 | 对应 IPD 内容 |
+| Dimension | Core Question | IPD Interpretation |
 |---|---|---|
-| What | 这个项目解决什么问题，交付什么？ | 产品/项目概念、需求、范围 |
-| Why | 为什么现在要做，价值在哪里？ | 市场洞察、应用价值、机会判断 |
-| Who | 谁使用、验收、决策、协同？ | 干系人、PDT、质量角色、决策层 |
-| When | 关键时间窗口和评审节点是什么？ | 里程碑、TR/DCP、版本路标 |
-| How | 技术路线、实施路径或研究方法是什么？ | 架构、技术路线、实验/开发路径 |
-| How much | 需要多少资源，收益或成功标准是什么？ | 成本、资源、ROI、研究/转化价值 |
+| What | What problem is being solved, and what will be delivered? | concept, requirements, scope, deliverables |
+| Why | Why should this be done now, and what value does it create? | market insight, application value, opportunity, strategy |
+| Who | Who uses, accepts, funds, decides, builds, or supports it? | stakeholders, team roles, governance, receivers |
+| When | What are the time windows, milestones, and decision points? | roadmap, TR/DCP timing, delivery plan |
+| How | What route, architecture, method, or experiment will be used? | technical path, implementation, verification approach |
+| How much | What resources, cost, effort, benefit, and success criteria apply? | resource plan, cost/value model, metrics |
 
-当输入很少时，skill 会先问三个问题：
+For sparse project input, start with only three questions:
 
-1. 你想解决的核心问题和预期交付物是什么？
-2. 这个项目为什么值得做？不做会有什么影响？
-3. 谁会使用、验收、决策或受影响？
+1. What core problem and expected deliverable should be addressed?
+2. Why is the project worth doing, and what happens if it is not done?
+3. Who will use, accept, decide, or be affected by the outcome?
 
-## IPD 架构模型
+Then add targeted follow-up questions for timing, route, cost, resources, and success metrics.
 
-skill 默认采用五层 IPD 架构：
+## IPD Architecture
 
-| 层级 | 内容 |
+The workflow uses a five-layer architecture:
+
+| Layer | Focus |
 |---|---|
-| 输入层 | 市场机会、客户需求、政策环境、竞争情报、技术趋势 |
-| 决策层 | IRB/PM 式决策、资源分配、优先级、DCP、质量门控 |
-| 执行层 | CDP -> PDP -> ADP -> VAP -> RAP -> LMP |
-| 支撑层 | CBB、技术平台、知识管理、工具链 |
-| 输出层 | 可制造、可采购、可服务、可盈利、可转化或可移交的项目包 |
+| Input Layer | market opportunity, customer needs, policy environment, competitive intelligence, technology trends |
+| Decision Layer | investment review, portfolio priority, resource allocation, DCP decisions, quality gates |
+| Execution Layer | CDP -> PDP -> ADP -> VAP -> RAP -> LMP |
+| Support Layer | CBB, technology platforms, knowledge management, tools, reusable assets |
+| Output Layer | manufacturable, procurable, serviceable, profitable, transferable, or research-to-engineering-ready package |
 
-对于应用研究项目，输出层会被解释为：可验证、可复用、可转化、具备工程迁移价值的研究能力。
+For applied research, the output layer can be interpreted as a verifiable, reusable, transferable capability rather than a commercial product package.
 
-## 六阶段流程
+## Six-Phase Lifecycle
 
-| 阶段 | 名称 | 目标 | 典型评审 |
+| Phase | Full Name | Goal | Typical Review |
 |---|---|---|---|
-| CDP | 概念阶段 | 明确为什么做、做什么 | TR1 + CDCP |
-| PDP | 计划阶段 | 明确怎么做、何时做、用多少资源 | TR2 + PDCP |
-| ADP | 开发阶段 | 完成工程开发、原型、样机、模型或研究实现 | TR3/TR4 + ADCP |
-| VAP | 验证阶段 | 验证需求满足度和发布/转化质量 | TR5/TR6 |
-| RAP | 发布阶段 | 发布、转化、移交或推广应用 | LDCP |
-| LMP | 生命周期管理阶段 | 持续迭代、价值优化、知识沉淀和退场管理 | 生命周期决策 |
+| CDP | Concept Development Phase | clarify why to do it and what to build or research | TR1 + CDCP |
+| PDP | Plan Development Phase | clarify how, when, with what resources, and at what quality level | TR2 + PDCP |
+| ADP | Development Phase | implement the product, prototype, model, process, or research artifact | TR3/TR4 + ADCP |
+| VAP | Validation Phase | verify requirement satisfaction and release/transfer readiness | TR5/TR6 |
+| RAP | Release Phase | release, transfer, launch, pilot, or enable adoption | LDCP |
+| LMP | Lifecycle Management Phase | manage iteration, value, quality feedback, knowledge, and end-of-life | lifecycle decision |
 
-## 14 个核心模块
+## Fourteen Core Modules
 
-skill 会围绕以下模块组织项目，避免重复和交叉：
+The reference framework organizes project material into 14 non-overlapping modules:
 
-1. 市场洞察（Why）
-2. 产品/项目概念与路标
-3. 竞争力规划
-4. 技术实现路径
-5. 可制造/可采购/可服务分析
-6. 知识产权与技术壁垒
-7. 项目计划与里程碑
-8. 工程开发
-9. 质量内建体系
-10. 系统验证
-11. 市场发布与销售/使用设计
-12. 现金流、成本与盈利/价值分析
-13. 动态响应机制
-14. 生命周期管理
+1. Market insight: Why
+2. Product/project concept and roadmap
+3. Competitiveness planning
+4. Technical implementation path
+5. Manufacturable/procurable/serviceable analysis
+6. Intellectual property and technical barriers
+7. Project plan and milestones
+8. Engineering development
+9. Quality built-in system
+10. System verification
+11. Market release and sales/use design
+12. Cash flow, cost, and profitability/value analysis
+13. Dynamic response mechanism
+14. Lifecycle management
 
-对于非商业应用研究，`盈利分析` 会调整为 `应用价值、资源价值、转化价值或战略价值`。
+For non-commercial research work, profitability can be reframed as application value, strategic value, transfer value, or capability value.
 
-## 质量内建
+## Quality Built In
 
-这个 skill 会把质量作为全流程机制，而不是最后的检查项。
+Quality is treated as a cross-lifecycle design concern, not as a final inspection step.
 
-| 阶段 | 质量关注点 |
+| Phase | Quality Focus |
 |---|---|
-| CDP | CTQ 识别、质量目标、合规初判 |
-| PDP | 质量计划、FMEA/DFMEA、测试策略、供应商/合作方质量假设 |
-| ADP | 设计/代码评审、单元测试、集成测试、过程审计、问题闭环 |
-| VAP | 系统测试、可靠性/安全/合规验证、Beta 或试点反馈 |
-| RAP | 发布质量、SPC 或运行指标、客户/用户满意度 |
-| LMP | 质量复盘、VAVE、持续改进、知识沉淀 |
+| CDP | CTQ identification, quality goals, initial compliance judgment |
+| PDP | quality plan, FMEA/DFMEA planning, test strategy, supplier or partner quality assumptions |
+| ADP | design review, code review, unit/integration tests, process audit, issue closure |
+| VAP | system tests, reliability/safety/compliance verification, beta or pilot feedback |
+| RAP | release quality, SPC or operational metrics, customer/user satisfaction |
+| LMP | quality retrospectives, VAVE, continuous improvement, knowledge capture |
 
-## 动态响应机制
+## Dynamic Response
 
-当政策、市场、客户、供应链或技术发生变化时，skill 会引导建立闭环：
+Projects often change because of policy, market, customer, supply-chain, or technology shifts. This workflow uses a closed loop:
 
-1. 感知：发生了什么变化？
-2. 分析：影响哪个阶段、范围、成本、质量、合规或进度？
-3. 决策：走普通 DCP、轻量 DCP，还是 CRB？
-4. 执行：调整技术、商务、供应链、合规或路标。
-5. 反馈：响应是否有效，哪些经验需要沉淀？
+1. Sense: What changed?
+2. Analyze: Which phase, scope, cost, quality, compliance, or schedule is affected?
+3. Decide: Should the team use a normal DCP, lightweight DCP, CRB, or roadmap decision?
+4. Execute: Adjust technology, business/use model, supply chain, compliance, or roadmap.
+5. Feedback: Did the response work, and what should be captured for future projects?
 
-## TR/DCP 规则
+## TR and DCP Rules
 
-DCP 必须输出明确结论：
+Every DCP should produce a clear decision:
 
-- `Go`：继续推进
-- `Kill`：终止
-- `Redirect`：调整方向
-- `Hold`：暂停
+- `Go`: continue
+- `Kill`: terminate
+- `Redirect`: adjust direction
+- `Hold`: pause
 
-TR 默认按 TR1-TR6 组织：
+TR reviews are organized around evidence:
 
-| TR | 评审焦点 |
+| TR | Review Focus |
 |---|---|
-| TR1 | 需求与概念 |
-| TR2 | 系统规格与计划 |
-| TR3 | 概要设计 |
-| TR4 | 详细设计 |
-| TR5 | 原型、样机、模型或阶段成果 |
-| TR6 | 试点、小批量或最终验证 |
+| TR1 | requirements and concept |
+| TR2 | system specification and plan |
+| TR3 | high-level design |
+| TR4 | detailed design |
+| TR5 | prototype, sample, model, or staged result |
+| TR6 | pilot, small-batch, or final validation readiness |
 
-## 默认输出
+## Expected Outputs
 
-当你要求生成完整材料时，skill 会输出两部分：
+When used end to end, the workflow usually produces two deliverables:
 
-1. IPD 项目文档
-2. IPD PPT 大纲
+1. IPD-style project document
+2. IPD-style presentation outline
 
-IPD 项目文档通常包含：
+The project document may include:
 
-- 执行摘要
-- 4W2H 项目定义
-- IPD 架构层映射
-- 背景与机会
-- 用户/应用场景与价值主张
-- 目标与成功指标
-- 范围与非范围
-- 需求分解
-- 技术路线与备选方案
-- 六阶段 IPD 计划
-- TR/DCP 节点
-- 质量内建计划
-- 动态响应机制
-- 组织与干系人
-- 风险、假设与依赖
-- 验证、验收、发布/转化和生命周期计划
-- 下一步行动
+- executive summary
+- 4W2H project definition
+- IPD architecture-layer mapping
+- project background and opportunity
+- customer or application scenario
+- objectives and success metrics
+- scope and non-scope
+- requirements
+- technical route and alternatives
+- six-phase IPD plan
+- TR/DCP checkpoints
+- quality built-in plan
+- dynamic response mechanism
+- organization and stakeholder map
+- risks, assumptions, and dependencies
+- verification, acceptance, release/transfer, and lifecycle plan
+- next actions
 
-PPT 大纲通常包含 15 页左右：
+The presentation outline often includes:
 
-1. 项目名称与决策请求
-2. IPD 架构视图
-3. 4W2H 项目定义
-4. CDP：机会与概念
-5. PDP：计划与路径
-6. 技术路线与竞争力
-7. 可制造/可采购/可服务/可转化
-8. ADP：开发实现
-9. VAP：验证方案
-10. RAP：发布或转化
-11. LMP：生命周期与迭代
-12. 质量内建
-13. 动态响应
-14. TR/DCP 评审安排
-15. 决策请求与下一步
+1. Project name and decision request
+2. IPD architecture view
+3. 4W2H project definition
+4. CDP: opportunity and concept
+5. PDP: plan and path
+6. Technical route and competitiveness
+7. Manufacturable/procurable/serviceable/transferable analysis
+8. ADP: development implementation
+9. VAP: verification plan
+10. RAP: release or transfer plan
+11. LMP: lifecycle and iteration
+12. Quality built in
+13. Dynamic response
+14. TR/DCP review plan
+15. Decision request and next steps
 
-## 示例提示词
+## Example Prompts
+
+For an AI assistant or facilitation session:
 
 ```text
-用 ipd-project-framing 帮我梳理一个应用研究项目：我们想研究一种新的视觉检测算法，用于产线缺陷识别，目前只有初步想法。
+Use the IPD project framing workflow to clarify this applied research project:
+We want to study a new visual inspection algorithm for production-line defect detection, but we only have an early idea.
 ```
 
 ```text
-用 ipd-project-framing 按 CDP 阶段帮我准备 TR1 和 CDCP 评审材料。
+Use this workflow to prepare TR1 and CDCP review material for the concept phase.
 ```
 
 ```text
-用 ipd-project-framing 帮我把这个工程项目整理成 IPD 文档和 PPT 大纲：<项目背景>
+Structure this engineering project into an IPD-style document and PPT outline:
+<project background>
 ```
 
 ```text
-继续，用上次的信息推进到 PDP 阶段，重点梳理技术实现路径、资源计划、质量计划和 TR2/PDCP。
+Continue from the previous project context and move into PDP. Focus on technical implementation path, resource plan, quality plan, and TR2/PDCP readiness.
 ```
 
-## 安装位置
+## Using With Different Tools
 
-当前本机安装路径：
+This repository is tool-agnostic:
 
-```text
-C:\Users\dmusu\.codex\skills\ipd-project-framing
-```
+- In an AI-agent environment, load `SKILL.md` as the primary instruction file and load `references/ipd-framework.md` when detailed templates are needed.
+- In a manual workshop, use the 4W2H table and six-phase lifecycle as the facilitation agenda.
+- In project-management practice, copy the document and slide outline sections into internal templates.
+- In an organization-specific rollout, adapt terminology, review gates, quality roles, and deliverable names to match internal governance.
 
-Codex 重启后会自动识别该 skill。
+## Customization Ideas
 
-## 维护建议
+- Add organization-specific DCP/TR templates.
+- Add industry-specific compliance checklists.
+- Add Word or PowerPoint templates under an `assets/` directory.
+- Add scripts to generate `.docx` or `.pptx` deliverables automatically.
+- Narrow the workflow for applied research, hardware products, software platforms, manufacturing process projects, or internal tools.
 
-- 如果你的 IPD 流程有公司内部术语，可继续把术语加入 `references/ipd-framework.md`。
-- 如果后续常生成 Word 或 PPT 文件，可以为该 skill 增加脚本或模板资产。
-- 如果项目类型稳定，例如只做应用研究，可以进一步压缩工程制造相关内容，强化实验设计、成熟度评估和转化路径。
+## License
+
+Add a license that matches the intended use before public distribution.
